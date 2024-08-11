@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+group = 'distribuciones'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation project(':dominio')
+	implementation project(':comun:comun-aplicacion')
+	implementation project.ext.springtxt
+
+
+}

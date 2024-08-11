@@ -1,0 +1,52 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
+plugins {
+	id 'info.solidsoft.pitest'
+}
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+
+group = 'distribuciones'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation project.ext.springboottest
+	testImplementation project.ext.mockitocore
+	testImplementation project.ext.mockitoinline
+	testImplementation project.ext.mockitojupiter
+	testImplementation project(':comun:comun-test')
+
+	implementation project(':comun:comun-dominio')
+}
+
+pitest {
+	junit5PluginVersion = "1.0.0"
+	testSourceSets = [sourceSets.test]
+	mainSourceSets = [sourceSets.main]
+	outputFormats = ['XML', 'HTML']
+	useClasspathFile = true
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+	}
+	additionalSourceDirs files("../aplicacion/src/main/java")
+	additionalClassDirs files("../aplicacion/build/classes/java/main")
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
